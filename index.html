@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="なっかのう" />
+    <meta name="twitter:title" content="ガストガチャ" />
+    <meta name="twitter:description" content="ガストでガチャろう" />
+    <meta name="twitter:image" content="https://github.com/nakano1120/gusto/blob/master/name.png?raw=true" />
+    <meta name="twitter:url" content="https://nakano1120.github.io/gusto/index.html" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>ファミマガチャ（ノーマル）</title>
+    <style>
+    body{
+        text-align: center;
+        margin:0;
+    }
+    .centering_parent {
+        text-align:center;
+        padding: 20px;              /* 余白指定 */
+        background-color:  #43B02A;    /* 背景色指定 */
+        color: #fff;
+        width: 100%;              /* 高さ指定 */
+    }
+    
+    .centering_item {
+        background-color: #ffffff;  /* 背景色指定 */
+        color: #000;
+        width: 80%;               /* 幅指定 */
+        height: 70%;               /* 高さ指定 */
+        margin:  0 auto;            /* 中央寄せ */
+    }
+    .centering_item2 {
+        border-radius: 5%;
+        background-color: #0085ca;  /* 背景色指定 */
+        color: #fff;
+        width: 80%;               /* 幅指定 */
+        height: 10%;               /* 高さ指定 */
+        margin:  0 auto;            /* 中央寄せ */
+    }
+    .centering_item3 {
+        border-radius: 10%;
+        background-color: #0085ca;  /* 背景色指定 */
+        color: #f66;
+        width: 80%;               /* 幅指定 */
+        height: 10%;               /* 高さ指定 */
+        margin:  0 auto;            /* 中央寄せ */
+    }
+    .bigsize{
+        font-size:200%
+    }
+    .btn-square {
+        display: inline-block;
+        padding: 0.5em 1em;
+        text-decoration: none;
+        background: #0085ca;/*ボタン色*/
+        color: #ffffff;
+        border-bottom: solid 4px #627295;
+        border-radius: 3px;
+    }
+    .btn-square:active {
+        /*ボタンを押したとき*/
+        -webkit-transform: translateY(4px);
+        transform: translateY(4px);/*下に動く*/
+        border-bottom: none;/*線を消す*/
+    }
+    #men{
+        display:none;
+    }
+    </style>
+</head>
+<body>
+    <div class="centering_parent">
+        <span class="bigsize">ファミマガチャN</span>
+        <div class="centering_item">
+            <a href="#" class="btn-square" onclick="gacha();">ガチャる</a>
+            <form name="selbox">
+            <select name="c" onchange="coinSet()">
+                    <option value="0">¥500</option>
+                    <option value="1">¥1000</option>
+                    <option value="2">¥1500</option>
+                    <option value="3">¥2000</option>
+                    <option value="4">¥300</option>
+            </select>
+            </form>
+            <div id="osechi">
+
+            </div>
+            <a href="#" id="men" class="btn-square" onclick="botan();">ツイートする</a>
+        </div>
+    </div>
+    <script>
+    let teigi = 500
+    let tweet_text=""
+    const menu = [
+        { name: "手巻　シーチキンマヨネーズ", price: "110"},
+        { name: "手巻　辛子明太子", price: "137"},
+        { name: "直巻　和風ツナマヨネーズ", price: "110"},
+        { name: "直巻　とり五目", price: "115"},
+        { name: "直巻　焼しゃけ", price: "116"},
+        { name: "手巻　日高昆布", price: "107"},
+        { name: "手巻　紅しゃけ", price: "139"},
+        { name: "直巻　明太子マヨネーズ", price: "119"},
+        { name: "おむすび2ケ入", price: "184"},
+        { name: "シャキシャキレタスサンド", price: "240"},
+        { name: "ジューシーハムサンド", price: "250"},
+        { name: "ミックスサンド", price: "238"},
+        { name: "ツナたまごサンド", price: "204"},
+        { name: "テリヤキチキンとたまごのサンド", price: "276"},
+        { name: "メロンパン", price: "102"},
+        { name: "あらびきチョリソーソーセージ", price: "121"},
+        { name: "コーンマヨパン", price: "110"},
+        { name: "クロワッサン", price: "110"},
+        { name: "挽肉と野菜の旨みミートソース", price: "369"},
+        { name: "大盛明太子スパゲティ", price: "417"},
+        { name: "ジューシーナポリタン", price: "369"},
+        { name: "蒸し鶏のサラダ", price: "369"},
+        { name: "野菜スティック（味噌マヨ）", price: "239"},
+        { name: "ファミチキ", price: "167"},
+        { name: "鶏つくね串タレ(軟骨入り)", price: "125"},
+        { name: "炭火焼きとりももタレ", price: "119"},
+        { name: "アメリカンドッグ", price: "100"},
+        { name: "ポケチキ（プレーン）", price: "186"},
+        { name: "ポケチキ（ホット）", price: "186"},
+        { name: "ポケチキ（チーズ）", price: "186"},
+        { name: "スパイシーチキン", price: "135"},
+        { name: "北海道産じゃがいもの牛肉コロッケ", price: "75"},
+        { name: "炭火焼きとりねぎまタレ", price: "128"},
+        { name: "ハッシュドポテト", price: "93"},
+        { name: "熟成生地の本格肉まん", price: "121"},
+        { name: "チーズたっぷりピザまん", price: "121"},
+        { name: "北海道産小豆のつぶあんまん", price: "112"},
+        { name: "アイスコーヒーS", price: "93"},
+        { name: "アイスコーヒーM", price: "167"},
+        { name: "アイスカフェラテM", price: "167"},
+        { name: "ブレンドM", price: "139"},
+        { name: "サッポロポテトバーベQあじ", price: "100"},
+        { name: "じゃがスティックあっさりうましお味", price: "100"},
+        
+        
+    ];
+    function coinSet(){
+      switch (document.selbox.c.selectedIndex){
+        case 0: teigi=500;break;
+        case 1: teigi=1000;break;
+        case 2: teigi=1500;break;
+        case 3: teigi=2000;break;
+        case 4: teigi=300;break;
+      }
+    }
+    function gacha(){
+        document.getElementById("osechi").innerHTML=""
+        let now = 0
+        let caltotal = 0
+        tweet_text=""
+        while(parseInt(now * 1.08) < teigi){
+            if(parseInt(now * 1.08) > teigi - 150){
+                let zeikomi = parseInt(now * 1.08)
+                document.getElementById("osechi").innerHTML+=("<div class='centering_item3'>合計 ¥"+ zeikomi + " 税抜 ¥"+ now + "</div><br>")
+                document.getElementById("men").style.display="inline-block"
+                tweet_text+="合計 ¥"+zeikomi+"%0D%0A";
+                break;
+            }
+            let rand = Math.floor(Math.random() * menu.length);
+            let thismenu = menu[rand];
+            let key = thismenu.name;
+            let price = parseInt(thismenu.price)
+            if((parseInt(now * 1.08) + parseInt(price * 1.08))< teigi){
+                now += price
+                let onezei = parseInt(price*1.08)
+                document.getElementById("osechi").innerHTML+=("<div class='centering_item2'>"+key + " ¥" + onezei+"</div><br>")
+                tweet_text+=key+"%0D%0A";
+            }
+        }
+    }
+    function openTwitter(text,url,hash,account) {
+	    let turl = "https://twitter.com/intent/tweet?text="+text+"&url="+url+"&hashtags="+hash;
+	    window.open(turl,'_blank');
+    }
+    function botan(){
+        openTwitter("ファミマガチャN("+teigi+"円)　結果%0D%0A"+tweet_text+"%0D%0A","https://nakano1120.github.io/gusto/index.html","ファミマガチャ");
+    }
+    </script>
+</body>
+</html>
